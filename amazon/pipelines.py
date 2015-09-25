@@ -5,7 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import sqlite3
-
+import os
 con = None
 
 class AmazonPipeline(object):
@@ -15,7 +15,7 @@ class AmazonPipeline(object):
         self.createTables()
         
     def setupDBCon(self):
-        self.con = sqlite3.connect('./test.db')
+        self.con = sqlite3.connect(os.getcwd() + '/test.db')
         self.cur = self.con.cursor()
     
     def createTables(self):

@@ -1,6 +1,7 @@
 import scrapy
 import urllib
 from amazon.items import AmazonItem
+import os
 
 
 class amazonSpider(scrapy.Spider):
@@ -15,7 +16,7 @@ class amazonSpider(scrapy.Spider):
     def start_requests(self):
         yield scrapy.Request("http://www.amazon.com/s/ref=sr_ex_n_3?rh=n%3A7141123011%2Cn%3A10445813011%2Cn%3A9479199011%2Cn%3A360832011&bbn=10445813011&ie=UTF8&qid=1442910853&ajr=0",self.parse)
         
-        for i in range(2,20):
+        for i in range(2,3):
             yield scrapy.Request("http://www.amazon.com/s/ref=lp_360832011_pg_2?rh=n%3A7141123011%2Cn%3A10445813011%2Cn%3A9479199011%2Cn%3A360832011&page="+str(i)+"&bbn=10445813011&ie=UTF8&qid=1442910987",self.parse)
         
     
@@ -29,12 +30,17 @@ class amazonSpider(scrapy.Spider):
         imglist = response.xpath('//img[@class="s-access-image cfMarker"]/@src').extract()
         listlength = len(namelist)
         
+        pwd = os.getcwd()+'/'
+
+        if not os.path.isdir(pwd+'crawlImages/'):
+            os.mkdir(pwd+'crawlImages/')
+
         for i in range(0,listlength):
             item = AmazonItem()
             item['Name'] = namelist[i]
             item['Source'] = htmllist[i]
         
-            urllib.urlretrieve(imglist[i],"./crawlImages/"+str(amazonSpider.imgcount)+".jpg")
-            item['Path'] = "./crawlImages/"+str(amazonSpider.imgcount)+".jpg"
+            urllib.urlretrieve(imglist[i],pwd+"crawlImages/"+str(amazonSpider.imgcount)+".jpg")
+            item['Path'] = pwd+"crawlImages/"+str(amazonSpider.imgcount)+".jpg"
             amazonSpider.imgcount = amazonSpider.imgcount + 1
             yield item
