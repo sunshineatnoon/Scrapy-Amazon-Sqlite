@@ -34,7 +34,7 @@ class amazonSpider(scrapy.Spider):
             item['Name'] = namelist[i]
             item['Source'] = htmllist[i]
         
-            urllib.urlretrieve(imglist[i],"/home/xuetingli/Desktop/crawlImages/"+str(amazonSpider.imgcount)+".jpg")
-            item['Path'] = "/home/xuetingli/Desktop/crawlImages/"+str(amazonSpider.imgcount)+".jpg"
+            urllib.urlretrieve(imglist[i],"./crawlImages/"+str(amazonSpider.imgcount)+".jpg")
+            item['Path'] = "./crawlImages/"+str(amazonSpider.imgcount)+".jpg"
             amazonSpider.imgcount = amazonSpider.imgcount + 1
             yield item
