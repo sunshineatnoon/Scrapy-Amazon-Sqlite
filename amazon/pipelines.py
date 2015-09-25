@@ -15,7 +15,7 @@ class AmazonPipeline(object):
         self.createTables()
         
     def setupDBCon(self):
-        self.con = sqlite3.connect('/home/xuetingli/Documents/python-projects/scrapy/amazon/test.db')
+        self.con = sqlite3.connect('./test.db')
         self.cur = self.con.cursor()
     
     def createTables(self):
